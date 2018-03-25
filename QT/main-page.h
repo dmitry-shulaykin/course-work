@@ -9,21 +9,18 @@
 #include "two-board-window.h"
 
 class MainPage : public QWidget{
-    Q_OBJECT
-    TwoBoardWindow* window = nullptr;
+Q_OBJECT
 public:
-    MainPage(QWidget *parent = nullptr);
-
-    QBoxLayout *layout;
-    QToolButton *play_comp, *play_human;
+    explicit MainPage(QWidget *parent = nullptr);
 
 private:
-
+    QBoxLayout *layout;
+    TwoBoardWindow* window = nullptr;
+    QToolButton *play_comp, *play_human;
 
 private slots:
     void startGameWithHuman();
     void startGameWithComputer();
-
 };
 
 

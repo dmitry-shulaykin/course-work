@@ -11,7 +11,6 @@ class ComputerWindow : public TwoBoardWindow {
     void initPlayers(Game <4, 4>* game) override;
 public:
     explicit ComputerWindow(QWidget *parent = nullptr);
-    void init() override ;
 };
 
 

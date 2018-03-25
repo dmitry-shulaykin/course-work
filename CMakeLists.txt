@@ -20,7 +20,14 @@ add_executable(Main
         QT/computer-window.cpp
         QT/computer-window.h
         QT/computer-board.cpp
-        QT/computer-board.h QT/MainPage.cpp QT/MainPage.h)
+        QT/computer-board.h
+        QT/main-page.cpp
+        QT/main-page.h)
+
+add_executable(TextGame
+        TextGame/main.cpp
+        TextGame/view.h
+        game.h)
 
 include_directories(${Qt5Widgets_INCLUDES})
 target_link_libraries(Main Qt5::Widgets)

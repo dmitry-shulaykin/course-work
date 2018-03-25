@@ -10,7 +10,6 @@
 #include <ostream>
 #include <string>
 
-typedef unsigned char cell;
 
 enum class GameMove{NOPE, UP, DOWN, RIGHT, LEFT};
 
@@ -20,13 +19,13 @@ class Game {
 private:
     int _move_counter = 0;
     int _free_x, _free_y;
-    cell _board[width][height];
+    char _board[width][height];
 public:
     Game();
     Game(const Game&) = default;
     Game& operator=(const Game&) = default;
 
-    cell getData(int x, int y) const;
+    char getData(int x, int y) const;
 
     void applyMove(GameMove move);
     void reset();
@@ -37,24 +36,22 @@ public:
     int getMoveCounter() const;
 
     bool checkWin() const;
-    bool isLegal(GameMove & move) const;
+    bool isLegal(GameMove move) const;
 
     void randomize(int seed, int num_moves);
 
     std::string getStringData(int x, int y) const;
-
 };
 
 template<size_t width, size_t height>
 std::string Game<width, height>::getStringData(int x, int y) const {
-        std::string ans = "";
         char c = getData(x, y);
-
-        if(c == '*'){
-            return "";
+        if(c != '*'){
+            return std::to_string(c);
+        }else{
+            return " ";
         }
 
-        return std::to_string((int)c);
 }
 
 template<size_t width, size_t height>
@@ -62,7 +59,6 @@ void Game<width, height>::randomize(int seed, int num_moves) {
     std::mt19937 generator;
     generator.seed(seed);
     std::uniform_int_distribution<int> distribution(1,4);
-
     GameMove move;
     while(num_moves--) {
         move = (GameMove) distribution(generator);
@@ -76,7 +72,7 @@ void Game<width, height>::randomize(int seed, int num_moves) {
 #define _DEBUG 1
 
 template<size_t width, size_t height>
-cell Game<width, height>::getData(int x, int y) const {
+char Game<width, height>::getData(int x, int y) const {
 #ifdef _DEBUG
     if(x < 0 || x >= width || y < 0 || y > width)
         throw std::out_of_range("Move (" + std::to_string(x) + ", " + std::to_string(y) + ")" +
@@ -120,7 +116,7 @@ void Game<width, height>::reset() {
 
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
-            _board[i][j] = (cell)(i*width + j+1);
+            _board[i][j] = (char)(i*width + j+1);
         }
     }
 
@@ -156,7 +152,7 @@ bool Game<width, height>::checkWin() const {
     for(int i = 0; i < height; i++){
         for(int j = 0; j < width; j++){
             if(i == height-1 && j == width-1) continue;
-            if(_board[i][j] != (cell)(i*width + j + 1))
+            if(_board[i][j] != (char)(i*width + j + 1))
                 return false;
         }
     }
@@ -170,7 +166,7 @@ int Game<width, height>::getMoveCounter() const {
 }
 
 template<size_t width, size_t height>
-bool Game<width, height>::isLegal(GameMove &move) const {
+bool Game<width, height>::isLegal(GameMove move) const {
     switch(move){
         case GameMove::UP:
             if(_free_y == height-1) return false; break;
@@ -180,8 +176,11 @@ bool Game<width, height>::isLegal(GameMove &move) const {
             if(_free_x == width-1) return false; break;
         case GameMove::RIGHT:
             if(_free_x == 0) return false; break;
+        default:
+            return true;
     }
     return true;
 }
+
 
 #endif //KURSOVAYA_GAME_H

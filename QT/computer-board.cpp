@@ -8,18 +8,18 @@
 
 ComputerBoard::ComputerBoard(int player_id, Game<w, h> *game, bool enableInput, QWidget *parent)
         : PlayerBoard(player_id, game, enableInput, parent) {
-        std::cout<<"inited new computer board"<<std::endl;
+    //
 }
 
 GameMove ComputerBoard::getNextMove() {
-    Game<w,h> * solver = new Game<w, h>(*game);
-
+    auto solver = new Game<w, h>(*game);
     while(nextMoves.empty()){
         solve_dfs(solver, 0, GameMove::NOPE, nextMoves);
+
         if(nextMoves.empty()){
             int num_moves = 5;
             std::mt19937 generator;
-            generator.seed(time(0));
+            generator.seed((unsigned long)time(0));
             std::uniform_int_distribution<int> distribution(1,4);
 
             GameMove move;
@@ -29,7 +29,6 @@ GameMove ComputerBoard::getNextMove() {
                 solver->applyMove(move);
                 nextMoves.push_back(move);
             }
-
             reverse(nextMoves.begin(), nextMoves.end());
         }
     }
@@ -44,7 +43,7 @@ GameMove ComputerBoard::getNextMove() {
 int ComputerBoard::calcScore(Game <w, h> *game) {
     int score = 0;
 
-    auto getStart = [&w, &h](char c, int &x, int &y){
+    auto getStart = [](char c, int &x, int &y){
         if(c != '*'){
             int cc = c - 1;
             y = cc/w;
@@ -62,9 +61,11 @@ int ComputerBoard::calcScore(Game <w, h> *game) {
 
             int delta_x = abs(i - desire_y);
             int delta_y = abs(j - desire_x);
-            score += (delta_x+delta_y);
+
             if(!delta_x && !delta_y){
-                score-= 5*(1<<(w*h-i));
+                score-= 5*(1<<(w*h-i*w-j));
+            }else{
+                break;
             }
         }
     }
@@ -75,17 +76,13 @@ int ComputerBoard::solve_dfs(Game<w, h>* game,
                              int depth, GameMove last,
                              std::vector <GameMove> & move){
 
-    GameMove best = GameMove::NOPE;
-
-    if(depth == MAX_LEVEL){
-        int score = calcScore(game);
-        //debugScore(depth, score);
-        return score;
+    if(depth == max_level){
+        return calcScore(game);
     }else {
+        GameMove best = GameMove::NOPE;
         int min_score = calcScore(game), current_score = 0;
         std::vector <GameMove> passup, passdown, passright, passleft;
 
-        GameMove current_move;
 
         if(last != GameMove::DOWN && game->getFreeY() != h - 1) {
             game->applyMove(GameMove::UP);
@@ -151,11 +148,8 @@ int ComputerBoard::solve_dfs(Game<w, h>* game,
 
 }
 
-void ComputerBoard::makeMove(GameMove m) {
-    std::cout<<"Computer Board make move evaluated"<<std::endl;
-
-    GameMove next = getNextMove();
-    move(next);
+void ComputerBoard::handleCanMove(GameMove m) {
+    makeMove(getNextMove());
 }
 
 

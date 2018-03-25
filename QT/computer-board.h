@@ -10,11 +10,11 @@ class ComputerBoard: public PlayerBoard {
 
     std::vector<GameMove> nextMoves;
 
-    static constexpr int MAX_LEVEL = 18;
+    int max_level = 16;
 
-    static int calcScore(Game <w, h> *game);
+    int calcScore(Game <w, h> *game);
 
-    static int solve_dfs(Game<w, h>* game,
+    int solve_dfs(Game<w, h>* game,
                    int depth, GameMove last,
                    std::vector <GameMove> & move);
 
@@ -26,8 +26,7 @@ public:
     GameMove getNextMove();
 
 public slots:
-    void makeMove(GameMove) override;
-
+    void handleCanMove(GameMove) override;
 };
 
 
