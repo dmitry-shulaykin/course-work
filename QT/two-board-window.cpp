@@ -26,8 +26,8 @@ void TwoBoardWindow::handleWin(int id) {
     QFont font = msg_box.font();
     font.setPixelSize(36);
     msg_box.setFont(font);
+    msg_box.setText("Игрок "+ QString::number(id) + " одержал победу!");
 
-    msg_box.setText("Игрок "+ QString::number(id) + " Выйграл!!!");
     msg_box.exec();
 }
 
@@ -36,7 +36,7 @@ void TwoBoardWindow::init() {
 
     auto game = new  Game<4, 4>();
 
-    game->randomize(451, 100);
+    game->randomize(time(0), 100);
 
     this->initPlayers(game);
 

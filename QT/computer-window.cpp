@@ -27,7 +27,7 @@ void ComputerWindow::init() {
 
     auto game = new  Game<4, 4>();
 
-    game->randomize(451, 100);
+    game->randomize(time(0), 100);
 
     this->initPlayers(game);
 

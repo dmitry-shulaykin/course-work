@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.8)
-
+set (CMAKE_CXX_STANDARD 14)
 set(PROJECT_NAME app)
+set(CMAKE_PREFIX_PATH /home/dima/Qt/5.10.1/gcc_64)
 
-find_package(Qt5Widgets)
+find_package(Qt5Widgets REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 
@@ -23,7 +24,3 @@ add_executable(Main
 
 include_directories(${Qt5Widgets_INCLUDES})
 target_link_libraries(Main Qt5::Widgets)
-
-add_executable(TextGame
-            TextGame/main.cpp
-        TextGame/main.cpp)

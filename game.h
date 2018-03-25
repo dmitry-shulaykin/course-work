@@ -50,13 +50,11 @@ std::string Game<width, height>::getStringData(int x, int y) const {
         std::string ans = "";
         char c = getData(x, y);
 
-        if(c < 10){
-            return ans+=(c+'0');
-        }else if(c != '*'){
-            return ans+=(c+'a'-10);
+        if(c == '*'){
+            return "";
         }
 
-        return ans;
+        return std::to_string((int)c);
 }
 
 template<size_t width, size_t height>
