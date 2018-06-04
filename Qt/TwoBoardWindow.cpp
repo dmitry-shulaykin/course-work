@@ -1,16 +1,18 @@
 #include <iostream>
-#include "two-board-window.h"
+#include "TwoBoardWindow.h"
+#include "../Model/Board.hh"
+#include "WinnerWindow.hh"
 #include <QMessageBox>
 
 TwoBoardWindow::TwoBoardWindow(QWidget *parent) : QWidget(parent)
 {
-
+    //init();
 }
 
-void TwoBoardWindow::initPlayers(Game <4, 4> *game) {
-    first_player_ = new PlayerBoard(1, game);
+void TwoBoardWindow::initPlayers(Board *game) {
+    first_player_ = new PlayerBoard(1, *game);
     first_player_->setAbilityToMakeMove(1);
-    second_player_ = new PlayerBoard(2, game);
+    second_player_ = new PlayerBoard(2, *game);
 
 
     connect(first_player_, SIGNAL(makeMove(GameMove)), second_player_, SLOT(handleCanMove(GameMove)));
@@ -24,20 +26,13 @@ void TwoBoardWindow::handleWin(int id) {
     first_player_->setAbilityToMakeMove(false);
     second_player_->setAbilityToMakeMove(false);
 
-    QMessageBox msg_box;
-    msg_box.setFixedSize(200, 60);
-    QFont font = msg_box.font();
-    font.setPixelSize(32);
-    msg_box.setWindowTitle("Конец игры");
-    msg_box.setFont(font);
-    msg_box.setText("Игрок "+ QString::number(id) + " одержал победу!");
-    msg_box.exec();
+    WinnerWindow message(id);
 }
 
 void TwoBoardWindow::init() {
     layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
 
-    auto game = new  Game<4, 4>();
+    auto game = new Board();
 
     game->randomize((int)time(0), 256);
 
@@ -48,3 +43,4 @@ void TwoBoardWindow::init() {
 
     setLayout(layout);
 }
+

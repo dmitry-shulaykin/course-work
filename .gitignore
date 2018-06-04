@@ -7,3 +7,4 @@ cmake-build-debug
 /Generator/gen
 /buildMS
 /buildMake
+/Garbage

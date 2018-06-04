@@ -1,7 +1,7 @@
 #ifndef TWOBOARDWINDOW_H
 #define TWOBOARDWINDOW_H
 
-#include "player-board.h"
+#include "PlayerBoard.h"
 #include <QWidget>
 
 class TwoBoardWindow : public QWidget
@@ -21,7 +21,9 @@ protected:
 
     QBoxLayout* layout;
 
-    virtual void initPlayers(Game <4, 4> *game);
+    virtual void initPlayers(Board *game);
 };
+
+
 
 #endif // TWOBOARDWINDOW_H

@@ -4,30 +4,47 @@ set(PROJECT_NAME app)
 set(CMAKE_PREFIX_PATH /home/dima/Qt/5.10.1/gcc_64)
 
 find_package(Qt5Widgets REQUIRED)
+find_package(Threads REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
 
+set(QT_SOURCES  Qt/main.cpp
+        Qt/MainPage.cpp
+        Qt/MainPage.h
+        Qt/TwoBoardWindow.cpp
+        Qt/SingleBoardWindow.cpp
+        Qt/SingleBoardWindow.h
+        Qt/TwoBoardWindow.h
+        Qt/PlayerBoard.cpp
+        Qt/PlayerBoard.h
+        Qt/ComputerBoard.cpp
+        Qt/ComputerBoard.h
+        Qt/ComputerWindow.cpp
+        Qt/ComputerWindow.h
+        Qt/Button.h
+        Qt/WinnerWindow.hh
+       # Qt/SettingsWindow.hh
+        Qt/RulesWindow.hh
+        Qt/Logger.hh Qt/Logger.cc
+        Qt/BoardAnimator.hh
+        Qt/SettingsWindow.cc
+        Qt/HelpBoard.hh
+        Qt/RulesWindow.cc
+        Qt/Animable.hh)
+
+set(MODEL_SOURCES
+        Model/AbstractSolver.hh
+        Model/CachedSolver.hh
+        Model/ScoringFunctions.hh
+        Model/BestFSSolver.hh
+        Model/Board.cc
+        )
 add_executable(Main
-        QT/main.cpp
-        QT/player-board.cpp
-        QT/two-board-window.cpp
-        QT/button.cpp
+        ${QT_SOURCES}
+        ${MODEL_SOURCES}
+        )
 
-        QT/button.h
-        QT/player-board.h
-        QT/two-board-window.h
-        game.h
-        QT/computer-window.cpp
-        QT/computer-window.h
-        QT/computer-board.cpp
-        QT/computer-board.h
-        QT/main-page.cpp
-        QT/main-page.h)
-
-add_executable(TextGame
-        TextGame/main.cpp
-        TextGame/view.h
-        game.h)
 
 include_directories(${Qt5Widgets_INCLUDES})
 target_link_libraries(Main Qt5::Widgets)
+target_link_libraries(Main ${CMAKE_THREAD_LIBS_INIT})

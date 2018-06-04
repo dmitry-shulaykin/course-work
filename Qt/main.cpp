@@ -1,4 +1,4 @@
-#include "main-page.h"
+#include "MainPage.h"
 
 int main(int argc, char *argv[])
 {
