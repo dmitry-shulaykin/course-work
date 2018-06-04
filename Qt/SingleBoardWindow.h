@@ -10,7 +10,6 @@ class SingleBoardWindow : public TwoBoardWindow
     Q_OBJECT
 public:
     explicit SingleBoardWindow(QWidget *parent = nullptr);
-    virtual void init();
 signals:
 
 public slots:
@@ -18,9 +17,9 @@ public slots:
 
 protected:
     PlayerBoard *player_;
-    QBoxLayout* layout;
+    QBoxLayout *layout;
 
-    void initPlayers(Board *game) override ;
+    void initPlayers(Board *game) override;
 };
 
 #endif // SINGLEBOARDWINDOW_H

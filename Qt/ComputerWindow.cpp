@@ -14,6 +14,12 @@ void ComputerWindow::initPlayers(Board * game) {
     first_player_->setAbilityToMakeMove(1);
     second_player_= new ComputerBoard(2, *game);
 
+    layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
+    layout->addWidget(first_player_);
+    layout->addWidget(second_player_);
+
+    setLayout(layout);
+
     connect(first_player_, SIGNAL(makeMove(GameMove)), second_player_, SLOT(handleCanMove(GameMove)));
     connect(second_player_, SIGNAL(makeMove(GameMove)), first_player_, SLOT(handleCanMove(GameMove)));
 

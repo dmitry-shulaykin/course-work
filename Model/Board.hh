@@ -1,4 +1,3 @@
-
 #ifndef PROJECT_BOARD_HH
 #define PROJECT_BOARD_HH
 
@@ -6,7 +5,6 @@
 #include <string>
 #include <stdexcept>
 #include <iostream>
-
 
 enum class GameMove{NOPE, UP = 1, DOWN = 2, RIGHT = 3, LEFT = 4};
 
@@ -45,23 +43,23 @@ public:
         std::cout<<toString()<<std::endl;
     }
 
-    __uint128_t to_long_int() const{
-        __uint128_t r = 0;
+    uint64_t to_long_int() const{
+        uint64_t r = 0;
         for(int i = 0; i< m_height; i++){
             for(int j = 0; j < m_width;j++){
-                int pos = i*m_width+j;
-                __uint128_t data = m_data[i][j];
-                r|=data<<(pos*8);
+                unsigned int pos = (unsigned) i*m_width+j;
+                uint64_t data = (unsigned)m_data[i][j];
+                r|=data<<(pos*4u);
             }
         }
         return r;
     }
 
-    void load_from_long(__uint128_t val){
+    void load_from_long(uint64_t val){
         for(int i = 0; i< m_height; i++){
             for(int j = 0; j < m_width;j++){
-                int pos = i*m_width+j;
-                m_data[i][j] = ((val>>(pos*8))&(255));
+                unsigned int pos = (unsigned) i*m_width+j;
+                m_data[i][j] = (int)((val>>(pos*4u))&(15u));
                 if(m_data[i][j] == 0){
                     m_free_x = j;
                     m_free_y = i;

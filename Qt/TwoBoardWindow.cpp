@@ -2,6 +2,7 @@
 #include "TwoBoardWindow.h"
 #include "../Model/Board.hh"
 #include "WinnerWindow.hh"
+#include "GlobalSettings.hh"
 #include <QMessageBox>
 
 TwoBoardWindow::TwoBoardWindow(QWidget *parent) : QWidget(parent)
@@ -14,6 +15,11 @@ void TwoBoardWindow::initPlayers(Board *game) {
     first_player_->setAbilityToMakeMove(1);
     second_player_ = new PlayerBoard(2, *game);
 
+    layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
+    layout->addWidget(first_player_);
+    layout->addWidget(second_player_);
+
+    setLayout(layout);
 
     connect(first_player_, SIGNAL(makeMove(GameMove)), second_player_, SLOT(handleCanMove(GameMove)));
     connect(second_player_, SIGNAL(makeMove(GameMove)), first_player_, SLOT(handleCanMove(GameMove)));
@@ -30,16 +36,12 @@ void TwoBoardWindow::handleWin(int id) {
 }
 
 void TwoBoardWindow::init() {
-    layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
 
     auto game = new Board();
 
-    game->randomize((int)time(0), 256);
+    game->randomize((int)time(0), GlobalSettings::get().getShuffleCount());
 
     this->initPlayers(game);
-
-    layout->addWidget(first_player_);
-    layout->addWidget(second_player_);
 
     setLayout(layout);
 }

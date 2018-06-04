@@ -23,7 +23,6 @@ set(QT_SOURCES  Qt/main.cpp
         Qt/ComputerWindow.h
         Qt/Button.h
         Qt/WinnerWindow.hh
-       # Qt/SettingsWindow.hh
         Qt/RulesWindow.hh
         Qt/Logger.hh Qt/Logger.cc
         Qt/BoardAnimator.hh
@@ -38,7 +37,7 @@ set(MODEL_SOURCES
         Model/ScoringFunctions.hh
         Model/BestFSSolver.hh
         Model/Board.cc
-        )
+        Qt/GlobalSettings.hh)
 add_executable(Main
         ${QT_SOURCES}
         ${MODEL_SOURCES}

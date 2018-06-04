@@ -6,6 +6,7 @@
 #include <thread>
 #include <iostream>
 #include "Animable.hh"
+#include "GlobalSettings.hh"
 
 class LinearAnimation : public Animable {
     double m_sx, m_sy;
@@ -20,7 +21,7 @@ class LinearAnimation : public Animable {
 
 public:
     LinearAnimation(QWidget *target, double speed = 500.0) :
-            target(target), finished(true), speed(speed) {
+            target(target), finished(true), speed(GlobalSettings::get().getAnimationSpeed()) {
     }
 
     void init(double s_x, double s_y, double f_x, double f_y) {

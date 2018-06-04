@@ -10,9 +10,13 @@ ComputerBoard::ComputerBoard(int player_id, const Board &game, bool enableInput,
           worker([&game, this]() {
 
               std::shared_ptr<AbstractScoreFunctor> score_func(new SimpleScoreFunctor());
-              BestFSSolver solver(score_func);
+
+              BestFSSolver solver(score_func, GlobalSettings::get().getAiMaxLevel());
+
               Board sample = game;
+
               moves = solver.solveWrap(sample);
+
           }) {
 
 }

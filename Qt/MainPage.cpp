@@ -70,12 +70,12 @@ void MainPage::startGameWithComputer() {
     setCentralWidget(window);
 }
 
-void MainPage::openSettingsDialog() {
+void MainPage::openRulesDialog() {
     RulesWindow *rules = new RulesWindow();
     rules->exec();
 }
 
-void MainPage::openRulesDialog() {
+void MainPage::openSettingsDialog() {
     SettingsWindow *settings = new SettingsWindow();
     settings->exec();
 }

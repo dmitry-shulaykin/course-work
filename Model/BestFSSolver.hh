@@ -8,7 +8,7 @@
 #include "AbstractSolver.hh"
 
 class BestFSSolver: public AbstractSolver{
-    static constexpr int MAX_LEVEL = 150;
+    int MAX_LEVEL = 130;
 
     std::vector <GameMove> Astar_search(Board &board){
         constexpr std::pair<GameMove, GameMove> opp_moves[4] = {
@@ -19,9 +19,9 @@ class BestFSSolver: public AbstractSolver{
                 {GameMove::LEFT, GameMove::RIGHT}
         };
 
-        std::map <__uint128_t, GameMove> closed_set;
-        std::set < std::pair <std::pair <int, int>, __uint128_t> > open_set;
-        __uint128_t packed = board.to_long_int(), final;
+        std::map <uint64_t , GameMove> closed_set;
+        std::set < std::pair <std::pair <int, int>, uint64_t> > open_set;
+        uint64_t packed = board.to_long_int(), final;
         //SimpleScoreFunctor f;
         open_set.insert({{(*m_score_function)(board), 0}, board.to_long_int()});
         closed_set.insert({packed, GameMove::NOPE});
@@ -64,7 +64,7 @@ class BestFSSolver: public AbstractSolver{
         }
 
         std::vector <GameMove> moves;
-        for(__uint128_t cboard = final; cboard != packed;){
+        for(uint64_t cboard = final; cboard != packed;){
             auto move = closed_set[cboard];
             Board b;
             b.load_from_long(cboard);
@@ -81,8 +81,8 @@ class BestFSSolver: public AbstractSolver{
         return Astar_search(sample);
     }
 public:
-    explicit BestFSSolver(std::shared_ptr<AbstractScoreFunctor> score_function):
-            AbstractSolver(std::move(score_function)) {};
+    explicit BestFSSolver(std::shared_ptr<AbstractScoreFunctor> score_function, int MAX_LEVEL = 120):
+            AbstractSolver(std::move(score_function)), MAX_LEVEL(MAX_LEVEL) {};
 
 };
 
