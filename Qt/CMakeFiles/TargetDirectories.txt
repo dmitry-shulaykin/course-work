@@ -1,4 +1,0 @@
-/home/dima/CLionProjects/course-work/Qt/CMakeFiles/rebuild_cache.dir
-/home/dima/CLionProjects/course-work/Qt/CMakeFiles/Main.dir
-/home/dima/CLionProjects/course-work/Qt/CMakeFiles/edit_cache.dir
-/home/dima/CLionProjects/course-work/Qt/CMakeFiles/Main_autogen.dir
