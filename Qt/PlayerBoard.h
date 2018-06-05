@@ -1,45 +1,38 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QtWidgets/QFrame>
+#include <QtWidgets/QBoxLayout>
+#include <QtWidgets/QLabel>
 #include "Button.h"
 #include "QtWidgets"
 #include "../Model/Board.hh"
 #include "Animable.hh"
-#include "Logger.hh"
 #include "BoardAnimator.hh"
 
 class PlayerBoard : public QWidget {
 Q_OBJECT
 
-public:
-    PlayerBoard(int player_id,
-                const Board &game,
-                bool enableInput = true, bool enableHeader = true,
-                QWidget *parent = nullptr );
-
-    ~PlayerBoard() override;
-
-    void setAbilityToMakeMove(bool can_move);
-
 protected:
-    int player_id_;
+    int m_player_id;
 
-    static constexpr int w = 4,
-            h = 4,
-            width = 500,
-            height = 500,
-            kButtonWidth = width / w - 5,
-            kButtonHeight = height / h - 5;
+    static constexpr int
+            NUM_COLS = 4,
+            NUM_ROWS = 4,
+            BOARD_WIDTH = 500,
+            BOARD_HEIGHT = 500,
+            BUTTON_WIDTH = BOARD_WIDTH / NUM_COLS - 5,
+            BUTTON_HEIGHT = BOARD_HEIGHT / NUM_ROWS - 5;
 
-    bool can_make_move_ = false, m_enable_header;
-    Board game;
-    QFrame *frame;
-    QBoxLayout *boxLayout;
-    QBoxLayout *header;
-    QLabel *turn_counter_label;
+    bool m_can_move = false, m_enable_header;
+
+    Board m_game;
+    QFrame *m_frame;
+    QBoxLayout *m_layout, *m_header;
+    QLabel *m_turn_counter_label;
     BoardAnimator *m_animator;
 
-    Button *buttons[h][w];
+    Button *m_buttons[NUM_ROWS][NUM_COLS];
 
     void initWidgets();
 
@@ -51,7 +44,20 @@ protected:
 
     void updateBoard(Button *button1, Button *button2);
 
+    void applyMove(GameMove move);
+
+public:
+    PlayerBoard(int player_id,
+                const Board &game,
+                bool enableInput = true, bool enableHeader = true,
+                QWidget *parent = nullptr);
+
+    ~PlayerBoard() override;
+
+    void setAbilityToMakeMove(bool can_move);
+
 signals:
+
     void makeMove(GameMove move);
 
     void confirmWin(int id);

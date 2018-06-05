@@ -1,48 +1,46 @@
 #include <iostream>
 #include "TwoBoardWindow.h"
-#include "../Model/Board.hh"
 #include "WinnerWindow.hh"
-#include "GlobalSettings.hh"
-#include <QMessageBox>
 
-TwoBoardWindow::TwoBoardWindow(QWidget *parent) : QWidget(parent)
-{
-    //init();
+TwoBoardWindow::TwoBoardWindow(QWidget *parent) : QWidget(parent) {
+    m_layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
 }
 
-void TwoBoardWindow::initPlayers(Board *game) {
-    first_player_ = new PlayerBoard(1, *game);
-    first_player_->setAbilityToMakeMove(1);
-    second_player_ = new PlayerBoard(2, *game);
+void TwoBoardWindow::initPlayers(const Board &game) {
+    m_first_player = new PlayerBoard(1, game);
+    m_first_player->setAbilityToMakeMove(1);
+    m_second_player = new PlayerBoard(2, game);
 
-    layout = new QBoxLayout(QBoxLayout::Direction::LeftToRight);
-    layout->addWidget(first_player_);
-    layout->addWidget(second_player_);
-
-    setLayout(layout);
-
-    connect(first_player_, SIGNAL(makeMove(GameMove)), second_player_, SLOT(handleCanMove(GameMove)));
-    connect(second_player_, SIGNAL(makeMove(GameMove)), first_player_, SLOT(handleCanMove(GameMove)));
-
-    connect(first_player_, SIGNAL(confirmWin(int)), this, SLOT(handleWin(int)));
-    connect(second_player_, SIGNAL(confirmWin(int)), this, SLOT(handleWin(int)));
+    m_layout->addWidget(m_first_player);
+    m_layout->addWidget(m_second_player);
 }
 
 void TwoBoardWindow::handleWin(int id) {
-    first_player_->setAbilityToMakeMove(false);
-    second_player_->setAbilityToMakeMove(false);
+    m_first_player->setAbilityToMakeMove(false);
+    m_second_player->setAbilityToMakeMove(false);
 
     WinnerWindow message(id);
 }
 
-void TwoBoardWindow::init() {
+TwoBoardWindow::~TwoBoardWindow() {
+    delete m_first_player;
+    delete m_second_player;
 
-    auto game = new Board();
-
-    game->randomize((int)time(0), GlobalSettings::get().getShuffleCount());
-
-    this->initPlayers(game);
-
-    setLayout(layout);
+    delete m_layout;
 }
 
+void TwoBoardWindow::init() {
+    Board game;
+    game.randomize((int)time(0), GlobalSettings::get().getShuffleCount());
+    initPlayers(game);
+    connectSignals();
+    setLayout(m_layout);
+}
+
+void TwoBoardWindow::connectSignals() {
+    connect(m_first_player, SIGNAL(makeMove(GameMove)), m_second_player, SLOT(handleCanMove(GameMove)));
+    connect(m_second_player, SIGNAL(makeMove(GameMove)), m_first_player, SLOT(handleCanMove(GameMove)));
+
+    connect(m_first_player, SIGNAL(confirmWin(int)), this, SLOT(handleWin(int)));
+    connect(m_second_player, SIGNAL(confirmWin(int)), this, SLOT(handleWin(int)));
+}

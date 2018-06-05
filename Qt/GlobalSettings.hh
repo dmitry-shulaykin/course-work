@@ -5,9 +5,11 @@
 #ifndef PROJECT_GLOBALSETTINGS_HH
 #define PROJECT_GLOBALSETTINGS_HH
 
+#include <iostream>
+
 class GlobalSettings{
 
-    int m_ai_max_level = 80;
+    int m_ai_max_level = 100;
     int m_shuffle_count = 40;
     float m_animation_speed = 1100.0;
 
@@ -16,17 +18,14 @@ public:
 
     void setAiMaxLevel(int ai_max_level){
         m_ai_max_level = ai_max_level;
-        std::cout<<m_ai_max_level<<std::endl;
     }
 
     void setShuffleCount(int shuffle_count){
         m_shuffle_count = shuffle_count;
-        std::cout<<m_shuffle_count<<std::endl;
     }
 
-    void setAiMaxLevel(float animation_speed){
+    void setAnimationSpeed(float animation_speed){
         m_animation_speed = animation_speed;
-        std::cout<<m_animation_speed<<std::endl;
     }
 
     int getAiMaxLevel() const {

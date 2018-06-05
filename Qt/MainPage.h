@@ -6,23 +6,30 @@
 #define PROJECT_MAINPAGE_H
 
 #include <QtWidgets>
+#include <QtWidgets/QMenuBar>
+#include <QtWidgets/QMainWindow>
 #include "TwoBoardWindow.h"
 
-class MainPage : public QMainWindow{
+class MainPage : public QMainWindow {
 Q_OBJECT
 public:
     explicit MainPage(QWidget *parent = nullptr);
 
-private:
-    TwoBoardWindow *window = nullptr;
-    QToolButton *play_comp, *play_human, *play_single, *rules, *settings;
-    QToolBar *toolbar;
+    ~MainPage();
 
+private:
+    TwoBoardWindow *m_window = nullptr;
+    QMenuBar *m_menu_bar = nullptr;
 private slots:
+
     void startGameSingle();
+
     void startGameWithHuman();
+
     void openSettingsDialog();
+
     void openRulesDialog();
+
     void startGameWithComputer();
 };
 

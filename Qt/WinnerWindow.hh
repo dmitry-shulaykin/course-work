@@ -10,13 +10,15 @@
 
 class WinnerWindow : public QMessageBox {
 public:
-    WinnerWindow(int id){
+    WinnerWindow(int id) {
+        move((QApplication::desktop()->screen()->rect().center()));
+
         setFixedSize(200, 60);
         QFont font = this->font();
         font.setPixelSize(32);
         setWindowTitle("Конец игры");
         setFont(font);
-        setText("Игрок "+ QString::number(id) + " одержал победу!");
+        setText("Игрок " + QString::number(id) + " одержал победу!");
         exec();
     }
 };

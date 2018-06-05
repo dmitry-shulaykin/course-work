@@ -7,8 +7,8 @@ PlayerBoard::PlayerBoard(int player_id,
                          bool enableHeader,
                          QWidget *parent) :
         QWidget(parent),
-        player_id_(player_id),
-        game(game),
+        m_player_id(player_id),
+        m_game(game),
         m_enable_header(enableHeader) {
     initWidgets();
     connect(this, SIGNAL(makeMove(GameMove)), this, SLOT(handleMove(GameMove)));
@@ -20,18 +20,18 @@ PlayerBoard::PlayerBoard(int player_id,
 
 PlayerBoard::~PlayerBoard() {
     delete m_animator;
-    delete frame;
-    delete header;
-    delete boxLayout;
+    delete m_frame;
+    delete m_header;
+    delete m_layout;
 }
 
 void PlayerBoard::renderGame() {
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            Button *button = buttons[i][j];
-            int x = buttons[i][j]->getX(), y = buttons[i][j]->getY();
-            button->setText(QString::fromStdString(game.getStringData(x, y)));
-            if (QString::fromStdString(game.getStringData(j, i)) == " ") {
+    for (int i = 0; i < NUM_ROWS; i++) {
+        for (int j = 0; j < NUM_COLS; j++) {
+            Button *button = m_buttons[i][j];
+            int x = m_buttons[i][j]->getX(), y = m_buttons[i][j]->getY();
+            button->setText(QString::fromStdString(m_game.getStringData(x, y)));
+            if (QString::fromStdString(m_game.getStringData(j, i)) == " ") {
                 button->hide();
             } else {
                 button->show();
@@ -42,43 +42,48 @@ void PlayerBoard::renderGame() {
 }
 
 void PlayerBoard::initWidgets() {
-    this->setFixedSize(width, height);
+    this->setFixedSize(BOARD_WIDTH, BOARD_HEIGHT);
+
+    m_animator = new BoardAnimator();
 
     // Creating Elements
-    boxLayout = new QBoxLayout(QBoxLayout::Direction::TopToBottom);
-    header = new QBoxLayout(QBoxLayout::Direction::RightToLeft);
-    turn_counter_label = new QLabel();
-    header->addWidget(turn_counter_label);
+    m_turn_counter_label = new QLabel();
     setActualInfo();
-    QFont font = turn_counter_label->font();
-    frame = new QFrame();
-    frame->setGeometry(0, 0, 500, 500);
-    frame->setFixedSize(500, 500);
-    m_animator = new BoardAnimator();
-    font.setPixelSize(48);
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            buttons[i][j] = new Button(QString::number(i * w + j + 1),
-                                       j, i, kButtonWidth, kButtonHeight, frame);
-            buttons[i][j]->setFont(font);
+    QFont font = m_turn_counter_label->font();
 
-            m_animator->addAnim(buttons[i][j]->getAnim());
+    m_header = new QBoxLayout(QBoxLayout::Direction::RightToLeft);
+    m_header->addWidget(m_turn_counter_label);
+
+    m_frame = new QFrame();
+
+    m_frame->setGeometry(0, 0, BOARD_WIDTH, BOARD_HEIGHT);
+    m_frame->setFixedSize(BOARD_WIDTH, BOARD_HEIGHT);
+
+    font.setPixelSize(BUTTON_WIDTH/2);
+    for (int i = 0; i < NUM_ROWS; i++) {
+        for (int j = 0; j < NUM_COLS; j++) {
+            m_buttons[i][j] = new Button(QString::number(i * NUM_COLS + j + 1),
+                                       j, i, BUTTON_WIDTH, BUTTON_HEIGHT, m_frame);
+            m_buttons[i][j]->setFont(font);
+
+            m_animator->addAnim(m_buttons[i][j]->getAnim());
         }
     }
 
+    m_layout = new QBoxLayout(QBoxLayout::Direction::TopToBottom);
     if (m_enable_header)
-        boxLayout->addLayout(header);
+        m_layout->addLayout(m_header);
 
-    boxLayout->addWidget(frame);
+    m_layout->addWidget(m_frame);
 
-    this->setLayout(boxLayout);
-    this->setFixedSize(width, height + 30);
+    this->setLayout(m_layout);
+    this->setFixedSize(BOARD_WIDTH, BOARD_HEIGHT + 30);
 }
 
 
 void PlayerBoard::handleClick() {
 
-    if (!can_make_move_)
+    if (!m_can_move)
         return;
 
     Button *clicked_button = qobject_cast<Button *>(sender());
@@ -89,18 +94,18 @@ void PlayerBoard::handleClick() {
 
 
         if (x > 0) {
-            auto leftButton = buttons[y][x - 1];
+            auto leftButton = m_buttons[y][x - 1];
             if (leftButton->text() == " ") {
-                updateBoard(buttons[y][x], buttons[y][x - 1]);
+                updateBoard(m_buttons[y][x], m_buttons[y][x - 1]);
                 makeMove(GameMove::LEFT);
                 return;
             }
         }
 
-        if (x < w - 1) {
-            auto rightButton = buttons[y][x + 1];
+        if (x < NUM_COLS - 1) {
+            auto rightButton = m_buttons[y][x + 1];
             if (rightButton->text() == " ") {
-                updateBoard(buttons[y][x], buttons[y][x + 1]);
+                updateBoard(m_buttons[y][x], m_buttons[y][x + 1]);
 
                 makeMove(GameMove::RIGHT);
                 return;
@@ -108,18 +113,18 @@ void PlayerBoard::handleClick() {
         }
 
         if (y > 0) {
-            auto upButton = buttons[y - 1][x];
+            auto upButton = m_buttons[y - 1][x];
             if (upButton->text() == " ") {
-                updateBoard(buttons[y][x], buttons[y - 1][x]);
+                updateBoard(m_buttons[y][x], m_buttons[y - 1][x]);
                 makeMove(GameMove::UP);
                 return;
             }
         }
 
-        if (y < h - 1) {
-            auto downButton = buttons[y + 1][x];
+        if (y < NUM_ROWS - 1) {
+            auto downButton = m_buttons[y + 1][x];
             if (downButton->text() == " ") {
-                updateBoard(buttons[y][x], buttons[y + 1][x]);
+                updateBoard(m_buttons[y][x], m_buttons[y + 1][x]);
                 makeMove(GameMove::DOWN);
                 return;
             }
@@ -137,53 +142,73 @@ void PlayerBoard::updateBoard(Button *button1, Button *button2) {
     int x2 = button2->getX();
     int y2 = button2->getY();
 
-    buttons[y1][x1]->moveTo(x2, y2);
-    buttons[y2][x2]->moveTo(x1, y1);
+    m_buttons[y1][x1]->moveTo(x2, y2);
+    m_buttons[y2][x2]->moveTo(x1, y1);
 
-    std::swap(buttons[y1][x1], buttons[y2][x2]);
+    std::swap(m_buttons[y1][x1], m_buttons[y2][x2]);
 
     m_animator->startAnimation();
 }
 
 void PlayerBoard::handleMove(GameMove move) {
-    game.applyMove(move);
+    m_game.applyMove(move);
     // renderGame();
 
-    if (game.checkWin()) {
-        confirmWin(player_id_);
+    if (m_game.checkWin()) {
+        confirmWin(m_player_id);
     }
 
-    can_make_move_ = false;
+    m_can_move = false;
     setActualInfo();
 }
 
 void PlayerBoard::connectButtons() {
-    for (int i = 0; i < h; i++) {
-        for (int j = 0; j < w; j++) {
-            connect(buttons[i][j], SIGNAL(clicked()), this, SLOT(handleClick()));
+    for (int i = 0; i < NUM_ROWS; i++) {
+        for (int j = 0; j < NUM_COLS; j++) {
+            connect(m_buttons[i][j], SIGNAL(clicked()), this, SLOT(handleClick()));
         }
     }
 }
 
 void PlayerBoard::handleCanMove(GameMove m) {
-    can_make_move_ = true;
+    m_can_move = true;
     setActualInfo();
 }
 
 void PlayerBoard::setAbilityToMakeMove(bool can_move) {
-    can_make_move_ = can_move;
+    m_can_move = can_move;
 }
 
 void PlayerBoard::setActualInfo() {
     QString current_move_msg = "";
 
-    if (can_make_move_) {
+    if (m_can_move) {
         current_move_msg = " (Текущий ход)";
     }
 
-    turn_counter_label->setText("Игрок " + QString::number(player_id_)
-                                + ", Ход №" + QString::number(game.getMoveCounter())
+    m_turn_counter_label->setText("Игрок " + QString::number(m_player_id)
+                                + ", Ход №" + QString::number(m_game.getMoveCounter())
                                 + current_move_msg);
+}
+
+void PlayerBoard::applyMove(GameMove move) {
+    std::array<std::pair<int, int>, 5> offs;
+    offs[(int) GameMove::NOPE] = {0, 0};
+    offs[(int) GameMove::UP] = {0, +1};
+    offs[(int) GameMove::DOWN] = {0, -1};
+    offs[(int) GameMove::LEFT] = {+1, 0};
+    offs[(int) GameMove::RIGHT] = {-1, 0};
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(250));
+    for (int i = 0; i < NUM_ROWS; i++) {
+        for (int j = 0; j < NUM_COLS; j++) {
+            if (m_buttons[i][j]->text() == " ") {
+                updateBoard(m_buttons[i][j], m_buttons[i + offs[(int) move].second][j + offs[(int) move].first]);
+                return;
+            }
+        }
+    }
+
 }
 
 

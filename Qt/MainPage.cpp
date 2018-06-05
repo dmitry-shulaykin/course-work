@@ -4,7 +4,6 @@
 
 #include "MainPage.h"
 #include "ComputerWindow.h"
-#include "../Model/Board.hh"
 #include "SingleBoardWindow.h"
 #include "SettingsWindow.hh"
 #include "RulesWindow.hh"
@@ -12,70 +11,71 @@
 MainPage::MainPage(QWidget *parent) {
 
     this->setWindowTitle("Игра в 15");
-    window = new TwoBoardWindow();
-    window->init();
 
-    play_comp = new QToolButton();
-    play_human = new QToolButton();
-    play_single = new QToolButton();
-    rules = new QToolButton();
-    settings = new QToolButton();
+    move(QApplication::desktop()->screen()->rect().center() - rect().center());
 
-    play_single->setText("Играть одному");
-    play_comp->setText("Играть с компьютером");
-    play_human->setText("Играть с человеком");
-    rules->setText("Правила");
-    settings->setText("Настройки");
+    m_window = new TwoBoardWindow();
+    m_window->init();
+    m_menu_bar = new QMenuBar();
 
-    toolbar = new QToolBar();
-    toolbar->addWidget(play_single);
-    toolbar->addWidget(play_comp);
-    toolbar->addWidget(play_human);
-    toolbar->addWidget(rules);
-    toolbar->addWidget(settings);
+    std::array<std::pair<const char *, const char *>, 5> buttons{
+            {
+                    {"Играть одному", SLOT(startGameSingle())},
+                    {"Играть вдвоем", SLOT(startGameWithHuman())},
+                    {"Играть c компьютером", SLOT(startGameWithComputer())},
+                    {"Правила", SLOT(openRulesDialog())},
+                    {"Настройки", SLOT(openSettingsDialog())}
+            }
+    };
 
-    setCentralWidget(window);
-    addToolBar(toolbar);
+    for (auto &&button: buttons) {
+        auto act = new QAction(button.first);
+        connect(act, SIGNAL(triggered()), this, button.second);
+        m_menu_bar->addAction(act);
+    }
 
-    //layout->addWidget(toolbar);
-    //layout->addWidget(window);
-
-    connect(play_single, SIGNAL(clicked()), this, SLOT(startGameSingle()));
-    connect(play_comp, SIGNAL(clicked()), this, SLOT(startGameWithComputer()));
-    connect(play_human, SIGNAL(clicked()), this, SLOT(startGameWithHuman()));
-    connect(settings, SIGNAL(clicked()), this, SLOT(openSettingsDialog()));
-    connect(rules, SIGNAL(clicked()), this, SLOT(openRulesDialog()));
-
-    //setLayout(layout);
+    setMenuBar(m_menu_bar);
+    setCentralWidget(m_window);
 }
 
 void MainPage::startGameWithHuman() {
-    delete window;
-    window = new TwoBoardWindow();
-    window->init();
-    setCentralWidget(window);
+    delete m_window;
+    m_window = new TwoBoardWindow();
+    m_window->init();
+    setCentralWidget(m_window);
 }
 
 void MainPage::startGameSingle() {
-    delete window;
-    window = new SingleBoardWindow();
-    window->init();
-    setCentralWidget(window);
+    delete m_window;
+    m_window = new SingleBoardWindow();
+    m_window->init();
+    setCentralWidget(m_window);
 }
 
 void MainPage::startGameWithComputer() {
-    delete window;
-    window = new ComputerWindow();
-    window->init();
-    setCentralWidget(window);
+    delete m_window;
+    m_window = new ComputerWindow();
+    m_window->init();
+    setCentralWidget(m_window);
 }
 
 void MainPage::openRulesDialog() {
-    RulesWindow *rules = new RulesWindow();
-    rules->exec();
+    RulesWindow rules;
+    rules.exec();
 }
 
 void MainPage::openSettingsDialog() {
-    SettingsWindow *settings = new SettingsWindow();
-    settings->exec();
+    SettingsWindow settings;
+    settings.exec();
+}
+
+MainPage::~MainPage() {
+    delete m_window;
+
+    for (auto &&act: m_menu_bar->children()) {
+        delete act;
+    }
+
+    delete m_menu_bar;
+
 }

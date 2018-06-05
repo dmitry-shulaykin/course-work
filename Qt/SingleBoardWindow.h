@@ -8,18 +8,12 @@
 class SingleBoardWindow : public TwoBoardWindow
 {
     Q_OBJECT
+protected:
+    void initPlayers(const Board &game) override;
+    void connectSignals() override;
 public:
     explicit SingleBoardWindow(QWidget *parent = nullptr);
-signals:
 
-public slots:
-    void handleWin(int id);
-
-protected:
-    PlayerBoard *player_;
-    QBoxLayout *layout;
-
-    void initPlayers(Board *game) override;
 };
 
 #endif // SINGLEBOARDWINDOW_H

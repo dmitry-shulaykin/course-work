@@ -9,7 +9,9 @@
 #include "../Model/Board.hh"
 
 class ComputerWindow : public TwoBoardWindow {
-    void initPlayers(Board *game) override;
+protected:
+    void initPlayers(const Board &game) override;
+
 public:
     explicit ComputerWindow(QWidget *parent = nullptr);
 };

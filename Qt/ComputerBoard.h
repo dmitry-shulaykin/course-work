@@ -7,18 +7,21 @@
 
 #include <vector>
 
-class ComputerBoard: public PlayerBoard {
+class ComputerBoard : public PlayerBoard {
 
     std::vector<GameMove> moves;
     std::thread worker;
 
 public:
     ComputerBoard(int player_id, const Board &game, bool enableInput = false,
-                         QWidget *parent = nullptr);
+                  QWidget *parent = nullptr);
 
     GameMove getNextMove();
+
     ~ComputerBoard() override;
+
 public slots:
+
     void handleCanMove(GameMove) override;
 };
 
