@@ -18,8 +18,6 @@ class SettingsWindow : public QDialog {
 	QGroupBox *m_ai_level;
 	QGroupBox *m_difficulty;
 
-<<<<<<< HEAD
-
 public:
     SettingsWindow();
 public slots:
@@ -35,43 +33,6 @@ public slots:
 
             GlobalSettings::get().setShuffleCount(d);
     };
-=======
-	QRadioButton *m_ai_low,
-		*m_ai_med,
-		*m_ai_high;
-
-	QRadioButton *m_difficulty_low,
-		*m_difficulty_med,
-		*m_difficulty_high;
-
-
-public:
-	SettingsWindow();
-	public slots:
-	void handle_d1_clicked() {
-		GlobalSettings::get().setShuffleCount(32);
-	};
-
-	void handle_d2_clicked() {
-		GlobalSettings::get().setShuffleCount(64);
-	};
-
-	void handle_d3_clicked() {
-		GlobalSettings::get().setShuffleCount(128);
-	};
-
-	void handle_a1_clicked() {
-		GlobalSettings::get().setAiMaxLevel(100);
-	};
-
-	void handle_a2_clicked() {
-		GlobalSettings::get().setAiMaxLevel(90);
-	};
-
-	void handle_a3_clicked() {
-		GlobalSettings::get().setAiMaxLevel(80);
-	};
->>>>>>> 682bac403bef3fc465cdeb2b1b471ded2ddd025f
 
     void handle_ai_clicked(){
             auto button_sender = qobject_cast<QRadioButton*>(sender());

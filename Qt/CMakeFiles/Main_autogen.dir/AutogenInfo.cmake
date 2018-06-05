@@ -1,0 +1,33 @@
+# Directories and files
+set(AM_CMAKE_BINARY_DIR "/home/dima/CLionProjects/course-work/Qt/")
+set(AM_CMAKE_SOURCE_DIR "/home/dima/CLionProjects/course-work/")
+set(AM_CMAKE_CURRENT_SOURCE_DIR "/home/dima/CLionProjects/course-work/")
+set(AM_CMAKE_CURRENT_BINARY_DIR "/home/dima/CLionProjects/course-work/Qt/")
+set(AM_CMAKE_INCLUDE_DIRECTORIES_PROJECT_BEFORE "")
+set(AM_BUILD_DIR "/home/dima/CLionProjects/course-work/Qt/Main_autogen")
+set(AM_SOURCES "/home/dima/CLionProjects/course-work/Qt/main.cpp;/home/dima/CLionProjects/course-work/Qt/MainPage.cpp;/home/dima/CLionProjects/course-work/Qt/TwoBoardWindow.cpp;/home/dima/CLionProjects/course-work/Qt/SingleBoardWindow.cpp;/home/dima/CLionProjects/course-work/Qt/PlayerBoard.cpp;/home/dima/CLionProjects/course-work/Qt/ComputerBoard.cpp;/home/dima/CLionProjects/course-work/Qt/ComputerWindow.cpp;/home/dima/CLionProjects/course-work/Qt/SettingsWindow.cc;/home/dima/CLionProjects/course-work/Qt/RulesWindow.cc;/home/dima/CLionProjects/course-work/Model/Board.cc;/home/dima/CLionProjects/course-work/Qt/LinearAnimation.cc;/home/dima/CLionProjects/course-work/Qt/Button.cc;/home/dima/CLionProjects/course-work/Qt/HelpBoard.cc;/home/dima/CLionProjects/course-work/Qt/RandomBoard.cc")
+set(AM_HEADERS "/home/dima/CLionProjects/course-work/Qt/MainPage.h;/home/dima/CLionProjects/course-work/Qt/SingleBoardWindow.h;/home/dima/CLionProjects/course-work/Qt/TwoBoardWindow.h;/home/dima/CLionProjects/course-work/Qt/PlayerBoard.h;/home/dima/CLionProjects/course-work/Qt/ComputerBoard.h;/home/dima/CLionProjects/course-work/Qt/ComputerWindow.h;/home/dima/CLionProjects/course-work/Qt/Button.h")
+# Qt environment
+set(AM_QT_VERSION_MAJOR "5")
+set(AM_QT_MOC_EXECUTABLE "/home/dima/Qt/5.10.1/gcc_64/bin/moc")
+set(AM_QT_UIC_EXECUTABLE )
+set(AM_QT_RCC_EXECUTABLE )
+# MOC settings
+set(AM_MOC_SKIP "")
+set(AM_MOC_DEFINITIONS "CMAKE_C_FLAGS=\"-mwindows\";QT_CORE_LIB;QT_GUI_LIB;QT_NO_DEBUG;QT_WIDGETS_LIB")
+set(AM_MOC_INCLUDES "/home/dima/CLionProjects/course-work/Qt/Main_autogen/include;/home/dima/Qt/5.10.1/gcc_64/include;/home/dima/Qt/5.10.1/gcc_64/include/QtWidgets;/home/dima/Qt/5.10.1/gcc_64/include/QtGui;/home/dima/Qt/5.10.1/gcc_64/include/QtCore;/home/dima/Qt/5.10.1/gcc_64/./mkspecs/linux-g++;/usr/include")
+set(AM_MOC_OPTIONS "")
+set(AM_MOC_RELAXED_MODE "FALSE")
+set(AM_MOC_DEPEND_FILTERS "")
+set(AM_MOC_PREDEFS_CMD "/usr/bin/c++;-dM;-E;-c;/usr/share/cmake-3.9/Modules/CMakeCXXCompilerABI.cpp")
+# UIC settings
+set(AM_UIC_SKIP )
+set(AM_UIC_TARGET_OPTIONS )
+set(AM_UIC_OPTIONS_FILES )
+set(AM_UIC_OPTIONS_OPTIONS )
+set(AM_UIC_SEARCH_PATHS )
+# RCC settings
+set(AM_RCC_SOURCES  )
+set(AM_RCC_INPUTS )
+set(AM_RCC_OPTIONS_FILES )
+set(AM_RCC_OPTIONS_OPTIONS )
