@@ -8,4 +8,11 @@ cmake-build-debug
 /buildMS
 /buildMake
 /Garbage
+<<<<<<< HEAD
 /build
+=======
+/release
+Makefile*
+uic_wrapper.bat
+/debug
+>>>>>>> 682bac403bef3fc465cdeb2b1b471ded2ddd025f
