@@ -5,6 +5,8 @@
 #ifndef PROJECT_GLOBALSETTINGS_HH
 #define PROJECT_GLOBALSETTINGS_HH
 
+#include <iostream>
+
 class GlobalSettings{
 
     int m_ai_max_level = 80;

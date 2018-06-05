@@ -137,6 +137,7 @@ Board &Board::operator=(const Board &other) {
             m_data[i][j] = other.m_data[i][j];
     m_free_x = other.m_free_x;
     m_free_y = other.m_free_y;
+	return *this;
 }
 
 Board::~Board() {

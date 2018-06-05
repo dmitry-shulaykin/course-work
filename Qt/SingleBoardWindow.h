@@ -7,7 +7,7 @@
 
 class SingleBoardWindow : public TwoBoardWindow
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
     explicit SingleBoardWindow(QWidget *parent = nullptr);
 signals:
