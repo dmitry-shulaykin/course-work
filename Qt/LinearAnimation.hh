@@ -20,7 +20,7 @@ class LinearAnimation : public Animable {
     QWidget *target;
 
 public:
-    explicit LinearAnimation(QWidget *target, double speed = 500.0);
+    explicit LinearAnimation(QWidget *target, double speed = 600.0);
 
     void init(double s_x, double s_y, double f_x, double f_y);
 

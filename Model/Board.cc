@@ -11,6 +11,8 @@ std::string Board::getStringData(int x, int y) const {
 }
 
 void Board::randomize(int seed, int num_moves) {
+    num_moves--;
+    getRandom(seed);
     while (num_moves--)
         applyMove(getRandom());
     m_move_counter = 0;
@@ -75,7 +77,6 @@ void Board::applyMove(GameMove move, bool save) {
         __debug();
         throw std::logic_error("Illegal Move");
     }
-
 }
 
 
@@ -88,8 +89,8 @@ void Board::reset() {
         }
     }
 
-    m_free_x = (int) m_width - 1;
-    m_free_y = (int) m_height - 1;
+    m_free_x = (char) m_width - 1;
+    m_free_y = (char) m_height - 1;
 
     m_data[m_free_y][m_free_x] = 0;
 
@@ -106,8 +107,6 @@ int Board::getFreeY() const {
 }
 
 Board::Board(bool save_history): m_save_history(save_history) {
-    m_data = new int *[m_height];
-    for (int i = 0; i < m_height; i++) m_data[i] = new int[m_width];
     reset();
 }
 
@@ -170,9 +169,9 @@ uint64_t Board::to_long_int() const {
     uint64_t r = 0;
     for(int i = 0; i< m_height; i++){
         for(int j = 0; j < m_width;j++){
-            unsigned int pos = (unsigned) i*m_width+j;
-            uint64_t data = (unsigned)m_data[i][j];
-            r|=data<<(pos*4u);
+            unsigned int pos = (unsigned) i * m_width+j;
+            uint64_t data = (unsigned) m_data[i][j];
+            r |= data << (pos*4u);
         }
     }
     return r;
@@ -201,16 +200,13 @@ Board &Board::operator=(const Board &other) {
 	return *this;
 }
 
-Board::~Board() {
-    for (int i = 0; i < m_width; i++)
-        delete[] m_data[i];
-    delete[] m_data;
-}
+Board::~Board() {}
 
-GameMove Board::getRandom() {
+GameMove Board::getRandom(int seed) {
     static std::mt19937 generator((int)time(0));
     static std::uniform_int_distribution<int> distribution(1, 4);
     GameMove move;
+    if(seed != -1) generator.seed(seed);
     move = (GameMove) distribution(generator);
     while (!isLegal(move))
         move = (GameMove) distribution(generator);

@@ -8,32 +8,43 @@
 #include <iostream>
 
 class GlobalSettings{
-
-    int m_ai_max_level = 100;
-    int m_shuffle_count = 40;
+public:
+    enum class ComputerLevel {LOW, MEDIUM, HIGH};
+    enum class Difficulty {LOW, MEDIUM, HIGH};
+private:
     float m_animation_speed = 1100.0;
+    ComputerLevel m_current_computer_level = ComputerLevel::HIGH;
+    Difficulty m_current_difficulty  = Difficulty::MEDIUM;
 
     GlobalSettings() = default;
 public:
 
-    void setAiMaxLevel(int ai_max_level){
-        m_ai_max_level = ai_max_level;
+    void setComputer(ComputerLevel level){
+        m_current_computer_level = level;
     }
 
-    void setShuffleCount(int shuffle_count){
-        m_shuffle_count = shuffle_count;
+    void setDifficulty(Difficulty difficulty){
+        m_current_difficulty = difficulty;
     }
 
     void setAnimationSpeed(float animation_speed){
         m_animation_speed = animation_speed;
     }
 
-    int getAiMaxLevel() const {
-        return m_ai_max_level;
+    int getComputerLevel() const {
+        switch(m_current_computer_level){
+            case ComputerLevel::HIGH: return 1;
+            case ComputerLevel::LOW: return 3;
+            case ComputerLevel::MEDIUM: return 2;
+        }
     }
 
     int getShuffleCount() const {
-        return m_shuffle_count;
+        switch(m_current_difficulty){
+            case Difficulty::HIGH: return 1024;
+            case Difficulty::LOW: return 32;
+            case Difficulty::MEDIUM: return 128;
+        }
     }
 
     float getAnimationSpeed() const {

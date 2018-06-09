@@ -15,33 +15,47 @@
 
 #include "Board.hh"
 #include "ScoringFunctions.hh"
-
+template <class T>
 class AbstractSolver {
 
 protected:
-    std::shared_ptr<AbstractScoreFunctor> m_score_function;
+    T m_score_function;
 
+    double m_solve_duration;
+
+    int m_score_function_calls;
 
     virtual std::vector<GameMove> solve(Board &board) = 0;
 
-    AbstractSolver(std::shared_ptr<AbstractScoreFunctor> score_function) :
-            m_score_function(std::move(score_function)) {}
+    AbstractSolver() : m_score_function() {
+        this->m_score_function.init();
+    }
 
 public:
-    std::vector<GameMove> solveWrap(Board &board) {
-        std::vector<GameMove> ans;
 
-        m_score_function->init();
+    std::vector<GameMove> solveWrap(Board &board) {
+
+        std::vector<GameMove> ans;
+        m_score_function.init();
 
         auto t = std::chrono::system_clock::now();
         Board sample = board;
         ans = this->solve(sample);
         auto d = std::chrono::system_clock::now() - t;
 
-        std::cout << "solved for " << (std::chrono::duration_cast<std::chrono::milliseconds>(d).count()) << "ms"
-                  << std::endl;
-        std::cout << "score_func_calls " << m_score_function->getCalls() << std::endl;
+        m_score_function_calls = m_score_function.getCalls();
+            m_solve_duration = (std::chrono::duration_cast
+                    <std::chrono::milliseconds>(d).count());
+
         return ans;
+    }
+
+    double getDuration() const {
+            return m_solve_duration;
+    }
+
+    int getCallsCount() const {
+            return m_score_function_calls;
     }
 };
 

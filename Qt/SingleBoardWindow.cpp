@@ -16,7 +16,8 @@ void SingleBoardWindow::initPlayers(const Board &game) {
 }
 
 void SingleBoardWindow::connectSignals() {
-    connect(m_first_player, SIGNAL(makeMove(GameMove)), m_first_player, SLOT(handleCanMove(GameMove)));
+   // connect(m_first_player, SIGNAL(makeMove(GameMove)), m_first_player, SLOT(handleMove(GameMove)));
+    connect(m_first_player, SIGNAL(makeMove(GameMove)), this, SLOT(refresh(GameMove)));
     connect(m_first_player, SIGNAL(confirmWin(int)), this, SLOT(handleWin(int)));
 }
 

@@ -11,13 +11,18 @@ enum class GameMove {
 };
 
 class Board {
+
+
     int m_move_counter = 0,
-            m_free_x, m_free_y,
-            m_width = 4, m_height = 4;
-    int **m_data;
+        m_free_x, m_free_y,
+        m_width = 4, m_height = 4;
+
+    char m_data[4][4];
     bool m_save_history = false;
     std::vector<GameMove> m_history;
 public:
+    static constexpr int WIDTH = 4, HEIGHT = 4;
+
     Board(bool save_history = false);
 
     Board(const Board &);
@@ -70,7 +75,7 @@ public:
         return board;
     }
 
-    GameMove getRandom();
+    GameMove getRandom(int seed = -1);
 };
 
 

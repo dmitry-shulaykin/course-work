@@ -21,7 +21,8 @@ SettingsWindow::SettingsWindow() {
     int i = 0;
     for(auto &&setting: radio_settings){
         auto btn = new QRadioButton(setting.first);
-
+        if(i == 1) btn->setChecked(true);
+        if(i == 5) btn->setChecked(true);
         if(i++ < 3){
             difficulty_layout->addWidget(btn);
             connect(btn, SIGNAL(clicked()), this, setting.second);
@@ -29,6 +30,7 @@ SettingsWindow::SettingsWindow() {
             ai_layout->addWidget(btn);
             connect(btn, SIGNAL(clicked()), this, setting.second);
         }
+
     }
     m_ai_level = new QGroupBox();
     m_difficulty = new QGroupBox();

@@ -24,13 +24,12 @@ public:
     };
 
     ~BoardAnimator() {
-        m_anim_objects.clear();
         stopAnimation();
+        m_anim_objects.clear();
     }
 
     void stopAnimation() {
         std::cout << "stopAnimation" << std::endl;
-
 
         if (animation_thread && animation_thread->joinable())
             animation_thread->detach();

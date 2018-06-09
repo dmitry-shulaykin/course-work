@@ -3,14 +3,13 @@
 //
 
 #include "ComputerBoard.h"
-#include "../Model/BestFSSolver.hh"
+#include "../Model/AStarSolver.hh"
 
 ComputerBoard::ComputerBoard(int player_id, const Board &game, bool enableInput, QWidget *parent)
         : PlayerBoard(player_id, game, enableInput, true, parent),
           worker([game, this]() {
-              std::shared_ptr<AbstractScoreFunctor> score_func(new SimpleScoreFunctor());
 
-              BestFSSolver solver(score_func, GlobalSettings::get().getAiMaxLevel());
+              AStarSolver<SimpleScoreFunctor> solver(GlobalSettings::get().getComputerLevel());
 
               Board sample = game;
 

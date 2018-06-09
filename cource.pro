@@ -40,7 +40,7 @@ HEADERS += \
         Model/AbstractSolver.hh \
         Model/CachedSolver.hh \
         Model/ScoringFunctions.hh \
-        Model/BestFSSolver.hh \
+        Model/AStarSolver.hh \
         Qt/BoardAnimator.hh \
         Qt/SettingsWindow.hh \
         Qt/GlobalSettings.hh \

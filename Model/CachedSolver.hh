@@ -6,16 +6,18 @@
 #define PROJECT_CACHEDSOLVER_HH
 
 #include "AbstractSolver.hh"
+template <class T>
+class CachedSolver : public AbstractSolver<T>{
+    using AbstractSolver<T>::m_score_function;
 
-class CachedSolver : public AbstractSolver {
     int max_level = 15;
     std::vector<GameMove> nextMoves;
     double solve_dfs(Board &board, int depth, GameMove last, std::vector<GameMove> &move) {
         if (depth == max_level) {
-            return (*m_score_function)(board);
+            return (m_score_function)(board);
         } else {
             GameMove best = GameMove::NOPE;
-            int min_score = (*m_score_function)(board);
+            int min_score = (m_score_function)(board);
             int current_score = 10;
             std::vector<GameMove> passup, passdown, passright, passleft;
 
@@ -121,7 +123,7 @@ class CachedSolver : public AbstractSolver {
     }
 
 public:
-    explicit CachedSolver(const std::shared_ptr<AbstractScoreFunctor> &score_function) : AbstractSolver(score_function) {}
+    explicit CachedSolver() : AbstractSolver<T>() {}
 };
 
 #endif //PROJECT_CACHEDSOLVER_HH

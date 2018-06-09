@@ -3,7 +3,7 @@
 //
 
 #include "HelpBoard.hh"
-#include "../Model/BestFSSolver.hh"
+#include "../Model/AStarSolver.hh"
 
 HelpBoard::HelpBoard(int player_id, const Board &game, bool enableInput, bool enableHelp, QWidget *parent) :
         PlayerBoard(player_id, game) {
@@ -49,9 +49,8 @@ void HelpBoard::handleSolve() {
         worker.detach();
     }
     worker = std::thread([this]() {
-        std::shared_ptr<AbstractScoreFunctor> score_func(new SimpleScoreFunctor());
 
-        BestFSSolver solver(score_func, GlobalSettings::get().getAiMaxLevel());
+        AStarSolver<SimpleScoreFunctor> solver(GlobalSettings::get().getComputerLevel());
 
         Board sample = m_game;
 
@@ -74,7 +73,7 @@ void HelpBoard::handleHelp() {
     moves.clear();
     std::shared_ptr<AbstractScoreFunctor> score_func(new SimpleScoreFunctor());
 
-    BestFSSolver solver(score_func, GlobalSettings::get().getAiMaxLevel());
+    AStarSolver<SimpleScoreFunctor> solver(GlobalSettings::get().getComputerLevel());
 
     Board sample = m_game;
 

@@ -23,27 +23,25 @@ public:
 public slots:
     void handle_difficulty_clicked(){
             auto button_sender = qobject_cast<QRadioButton*>(sender());
-
-            int d = 32;
             if(button_sender->text() == "Сложный")
-                    d = 256;
+                GlobalSettings::get().setDifficulty(GlobalSettings::Difficulty::HIGH);
+            else if(button_sender->text() == "Легкий")
+                GlobalSettings::get().setDifficulty(GlobalSettings::Difficulty::LOW);
             else if(button_sender->text() == "Средний")
-                    d = 128;
+                GlobalSettings::get().setDifficulty(GlobalSettings::Difficulty::MEDIUM);
 
 
-            GlobalSettings::get().setShuffleCount(d);
+
     };
 
     void handle_ai_clicked(){
             auto button_sender = qobject_cast<QRadioButton*>(sender());
-
-            int d = 130;
-            if(button_sender->text() == "Сложный")
-                    d = 110;
-            else if(button_sender->text() == "Средний")
-                    d = 120;
-
-            GlobalSettings::get().setAiMaxLevel(d);
+        if(button_sender->text() == "Сложный")
+            GlobalSettings::get().setComputer(GlobalSettings::ComputerLevel::HIGH);
+        else if(button_sender->text() == "Легкий")
+            GlobalSettings::get().setComputer(GlobalSettings::ComputerLevel::LOW);
+        else if(button_sender->text() == "Средний")
+            GlobalSettings::get().setComputer(GlobalSettings::ComputerLevel::MEDIUM);
     };
 };
 

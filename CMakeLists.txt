@@ -42,19 +42,31 @@ set(QT_SOURCES  Qt/main.cpp
         Qt/SettingsWindow.cc
         Qt/HelpBoard.hh
         Qt/RulesWindow.cc
-        Qt/Animable.hh)
+        Qt/Animable.hh
+		Qt/GlobalSettings.hh
+		Qt/LinearAnimation.hh
+		Qt/LinearAnimation.cc
+		Qt/Button.cc
+		Qt/HelpBoard.cc
+		Qt/RandomBoard.cc
+		Qt/RandomBoard.hh
+		)
 
 set(MODEL_SOURCES
         Model/AbstractSolver.hh
         Model/CachedSolver.hh
         Model/ScoringFunctions.hh
-        Model/BestFSSolver.hh
+        Model/AStarSolver.hh
         Model/Board.cc
-        Qt/GlobalSettings.hh Qt/LinearAnimation.hh Qt/LinearAnimation.cc Qt/Button.cc Qt/HelpBoard.cc Qt/RandomBoard.cc Qt/RandomBoard.hh)
+        )
 add_executable(Main
         ${QT_SOURCES}
         ${MODEL_SOURCES}
-        )
+		Model/BasicSolver.hh)
+
+add_executable(Solve_Test
+		${MODEL_SOURCES} test_main.cc
+		)
 
 include_directories(${Qt5Widgets_INCLUDES})
 target_link_libraries(Main Qt5::Widgets)
