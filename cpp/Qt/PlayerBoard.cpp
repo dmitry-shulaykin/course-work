@@ -1,4 +1,5 @@
 #include "PlayerBoard.h"
+#include <array>
 
 
 PlayerBoard::PlayerBoard(int player_id,
@@ -200,6 +201,7 @@ void PlayerBoard::applyMove(GameMove move) {
     offs[(int) GameMove::RIGHT] = {-1, 0};
 
     std::this_thread::sleep_for(std::chrono::milliseconds(250));
+
     for (int i = 0; i < NUM_ROWS; i++) {
         for (int j = 0; j < NUM_COLS; j++) {
             if (m_buttons[i][j]->text() == " ") {

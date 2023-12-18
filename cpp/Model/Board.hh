@@ -66,6 +66,8 @@ public:
 
     void load_from_long(uint64_t val);
 
+    void from_str(std::string str);
+
     void saveHistory(bool save_history);
 
     std::string toString();

@@ -44,13 +44,12 @@ public:
         auto d = std::chrono::system_clock::now() - t;
 
         m_score_function_calls = m_score_function.getCalls();
-            m_solve_duration = (std::chrono::duration_cast
-                    <std::chrono::milliseconds>(d).count());
+        m_solve_duration = (std::chrono::duration_cast<std::chrono::milliseconds>(d).count());
 
         return ans;
     }
 
-    double getDuration() const {
+    double getDurationMs() const {
             return m_solve_duration;
     }
 

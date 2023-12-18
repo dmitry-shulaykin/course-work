@@ -75,14 +75,12 @@ public:
 
             if (sample_board.isLegal(best)) {
                 sample_board.__debug();
-
-
                 sample_board.applyMove(best);
                 moves.push_back(best);
                 used.insert(sample_board.to_long_int());
                 std::cout << "runnin' OK" << std::endl;
             }else{
-                std::cout<<"fuck you"<<std::endl;
+                std::cout << "fuck you"<< std::endl;
             }
 
         }

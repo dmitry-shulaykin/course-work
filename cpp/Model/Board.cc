@@ -2,7 +2,6 @@
 // Created by dima on 03.06.18.
 //
 
-#include <termcap.h>
 #include <array>
 #include "Board.hh"
 
@@ -187,6 +186,25 @@ void Board::load_from_long(uint64_t val){
                 m_free_x = j;
                 m_free_y = i;
             }
+        }
+    }
+}
+
+void Board::from_str(std::string str) {
+    int i = 0;
+    for(int y = 0; y < 4; y++){
+        for(int x = 0; x < 4; x++){
+            if (str[i] >= 'A' && str[i] <= 'F') {
+                m_data[y][x] = (char) (str[i] - 'A' + 10);
+            } else if (str[i] >= '0' && str[i] <= '9') {
+                m_data[y][x] = (char) (str[i] - '0');
+            }
+
+            if(m_data[y][x] == 0){
+                m_free_x = x;
+                m_free_y = y;
+            }
+            i++;
         }
     }
 }

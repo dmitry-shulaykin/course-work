@@ -1,7 +1,7 @@
 //
 // Created by dima on 18.03.18.
 //
-
+#include <array>
 #include "MainPage.h"
 #include "ComputerWindow.h"
 #include "SingleBoardWindow.h"

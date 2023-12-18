@@ -37,6 +37,8 @@ public:
             case ComputerLevel::LOW: return 3;
             case ComputerLevel::MEDIUM: return 2;
         }
+
+        return 3;
     }
 
     int getShuffleCount() const {
@@ -45,6 +47,8 @@ public:
             case Difficulty::LOW: return 32;
             case Difficulty::MEDIUM: return 128;
         }
+
+        return 32;
     }
 
     float getAnimationSpeed() const {

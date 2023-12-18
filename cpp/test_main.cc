@@ -32,15 +32,15 @@ int main(){
             std::cout<<"WRONG ANSWER";
             std::terminate();
         }
-        std::cout << " func calls " << sum_func_calls<< std::endl;
-        std::cout << " duration calls " << sum_duration  << std::endl;
-        sum_duration += solver.getDuration();
+        std::cout << " total score calls: " << sum_func_calls<< std::endl;
+        std::cout << " total duration: " << sum_duration << " ms" << std::endl;
+        sum_duration += solver.getDurationMs();
         sum_func_calls += solver.getCallsCount();
 
     }
 
-    std::cout << " avg func calls " << sum_func_calls / num_test << std::endl;
-    std::cout << " avg duration calls " << sum_duration / num_test << std::endl;
+    std::cout << " avg func calls: " << sum_func_calls / num_test << std::endl;
+    std::cout << " avg duration: " << sum_duration / num_test << " ms" << std::endl;
 
     return 0;
 }

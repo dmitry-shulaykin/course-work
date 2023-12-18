@@ -1,4 +1,5 @@
 #include "SettingsWindow.hh"
+#include <array>
 
 SettingsWindow::SettingsWindow() {
     m_layout = new QBoxLayout(QBoxLayout::Direction::TopToBottom);

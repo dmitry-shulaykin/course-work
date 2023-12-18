@@ -1,7 +1,7 @@
 //
 // Created by dima on 04.06.18.
 //
-
+#include <array>
 #include "HelpBoard.hh"
 #include "../Model/AStarSolver.hh"
 

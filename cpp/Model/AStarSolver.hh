@@ -53,22 +53,24 @@ class AStarSolver: public AbstractSolver<T>{
 
             // Пробуем из нее совершать ходы
             for(auto &&move: opp_moves){
-                if(current_board.isLegal(move.first)) {
-                    current_board.applyMove(move.first);
-                    // Проверак
-                    if(closed_set.find(current_board.to_long_int()) == closed_set.end()){
-                        open_set.push({
-                             {
-                                 m_score_function(current_board) + current.first.second
-                                                                   / m_dist_mul ,
-                                 current.first.second+1
-                             },
-                             current_board.to_long_int()
-                        });
-                        closed_set.insert({current_board.to_long_int(), move.first});
-                    }
-                    current_board.applyMove(move.second);
+                if(!current_board.isLegal(move.first)) {
+                    continue;
                 }
+
+                current_board.applyMove(move.first);
+                // Проверак
+                if(closed_set.find(current_board.to_long_int()) == closed_set.end()){
+                    open_set.push({
+                            {
+                                m_score_function(current_board) + current.first.second
+                                                                / m_dist_mul ,
+                                current.first.second+1
+                            },
+                            current_board.to_long_int()
+                    });
+                    closed_set.insert({current_board.to_long_int(), move.first});
+                }
+                current_board.applyMove(move.second);
             }
 
         }
